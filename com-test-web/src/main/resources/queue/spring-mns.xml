@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+    <!-- 阿里云访问授权信息 -->
+    <bean id="cloudAccount" class="com.aliyun.mns.client.CloudAccount">
+        <constructor-arg index="0" value="${config.mns.accessId}"/>
+        <constructor-arg index="1" value="${config.mns.accessKey}"/>
+        <constructor-arg index="2" value="${config.mns.accountEndpoint}"/>
+    </bean>
+
+    <!-- 阿里云主题消息发布者 -->
+    <bean id="mnsTopicPublisher" class="com.ligl.queue.mns.MnsTopicPublisher">
+        <property name="cloudAccount" ref="cloudAccount"/>
+        <property name="topicNameMap">
+            <map>
+                <!-- 充值 -->
+                <entry key="RECHARGE" value="${config.mns.topic.recharge}"/>
+                <!-- 提现 -->
+                <entry key="WITHDRAW" value="${config.mns.topic.withdraw}"/>
+                <!-- 投标 -->
+                <entry key="INVEST" value="${config.mns.topic.invest}"/>
+                <!-- 债权转让 -->
+                <entry key="CREDIT_TRANSFER" value="${config.mns.topic.credit_transfer}"/>
+                <!-- 兑付 -->
+                <entry key="REPAY" value="${config.mns.topic.repay}"/>
+                <!-- 放款 -->
+                <entry key="LOAN" value="${config.mns.topic.loan}"/>
+                <!-- 自动扣款转账（佣金派送） -->
+                <entry key="AUTO_CHARGE" value="${config.mns.topic.auto_charge}"/>
+                <!-- 机构转账 -->
+                <entry key="ORGAN_TRANSFER" value="${config.mns.queue.organ_transfer}"/>
+            </map>
+        </property>
+    </bean>
+
+    <!-- 阿里云主题消息订阅者 -->
+    <bean id="mnsTopicSubscriber" class="com.ligl.queue.mns.MnsTopicSubscriber"
+          init-method="startup" destroy-method="shutdown">
+        <property name="cloudAccount" ref="cloudAccount"/>
+        <property name="waitSeconds" value="10"/>
+        <!-- 队列消息处理线程池 -->
+        <property name="taskExecutor">
+            <bean class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+                <property name="queueCapacity" value="200"/>
+                <property name="corePoolSize" value="10"/>
+                <property name="maxPoolSize" value="50"/>
+            </bean>
+        </property>
+        <property name="topicListenerMap">
+            <map>
+                <!-- 充值 -->
+                <entry key="${config.mns.queue.recharge}" value-ref="rechargeTopicListener"/>
+            </map>
+        </property>
+    </bean>
+    
+    <!-- 充值-->
+    <bean id="rechargeTopicListener" class="com.ligl.trans.listener.RechargeTopicListener"/>
+</beans>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+    <bean id="redisSequence" class="com.ligl.common.redis.RedisSequence">
+        <property name="redisManager" ref="redisManager"/>
+    </bean>
+
+    <bean id="redisLock" class="com.ligl.common.redis.RedisLock">
+        <property name="redisManager" ref="redisManager"/>
+    </bean>
+
+    <bean id="redisManager" class="com.ligl.common.redis.RedisManager">
+        <!--
+            <bean id="redisCache" class="com.zb.common.utils.cache.RedisCache">
+            <bean id="jedisPool" class="redis.clients.jedis.ShardedJedisPool">
+        -->
+        <property name="jedisPool" ref="jedisPool"/>
+    </bean>
+
+    <!--redis 连接池配置-->
+    <bean id="jedisPool" class="redis.clients.jedis.JedisPool">
+        <constructor-arg index="0" name="poolConfig" ref="jedisPoolConfig"/>
+        <constructor-arg index="1" name="host" value="${config.redis.ip}"/>
+        <constructor-arg index="2" name="port" value="${config.redis.port}"/>
+        <constructor-arg index="3" name="timeout" value="${config.redis.timeout}"/>
+        <constructor-arg index="4" name="password" value="${config.redis.password}"/>
+    </bean>
+
+    <!--redis 连接池配置-->
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxTotal" value="${config.redis.pool.maxActive}"></property>
+        <!-- 控制一个pool最多有多少个状态为idle的jedis实例-->
+        <property name="maxIdle" value="${config.redis.pool.maxIdle}"></property>
+        <!-- 控制一个pool最少有多少个状态为idle的jedis实例-->
+        <property name="minIdle" value="${config.redis.pool.minIdle}"></property>
+        <!-- 当池内没有返回对象时，最大等待时间 -->
+        <property name="maxWaitMillis" value="${config.redis.pool.maxWait}"></property>
+        <!-- 在borrow一个jedis实例时，是否提前进行alidate操作；如果为true，则得到的jedis实例均是可用的 -->
+        <property name="testOnBorrow" value="${config.redis.pool.testOnBorrow}"></property>
+    </bean>
+</beans>

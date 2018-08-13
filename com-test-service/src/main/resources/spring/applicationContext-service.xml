@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-4.0.xsd"
+       default-autowire="byName" default-lazy-init="false">
+
+    <bean id="SpringContextHolder" class="com.ligl.common.utils.SpringContextHolder"></bean>
+    <!-- 自动扫描service包 ,将带有注解的类 纳入Spring容器管理
+    加载路径中的通配符：？（匹配单个字符），*（匹配除/外任意字符）、**/(匹配任意多个目录)-->
+    <!--    <context:component-scan base-package="com.ligl.**.service"/>
+        <context:component-scan base-package="com.ligl.*.facade.impl"/>
+        <context:component-scan base-package="com.ligl.*.check"/>-->
+    <context:component-scan base-package="com.ligl"/><!--全注入，不推荐-->
+
+    <bean id="ThreadExecutor"
+          class="com.ligl.trans.service.ThreadExecutorFactory">
+        <property name="poolSize" value="${thread.poolSize}"/>
+    </bean>
+</beans>

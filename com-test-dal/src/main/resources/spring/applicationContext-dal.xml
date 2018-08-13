@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
+       default-autowire="byName"
+       default-lazy-init="false">
+
+    <!-- 	<bean id="propertyConfigurer"
+            class="org.springframework.beans.factoryMethod.config.PropertyPlaceholderConfigurer">
+            <property name="locations">
+                <list>
+                    <value>file:${pay_conf_path}/config-pay.properties</value>
+                    <value>file:${pay_conf_path}/config-mgw.properties</value>
+                </list>
+            </property>
+        </bean> -->
+
+    <!-- 数据源 -->
+    <bean name="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+
+        <!-- 初始化连接大小 -->
+        <property name="initialSize" value="${cpool.initialSize}"/>
+
+        <!-- 连接池最大使用连接数量 -->
+        <property name="maxActive" value="${cpool.maxActive}"/>
+
+        <!-- 连接池最小空闲连接数 -->
+        <property name="minIdle" value="${cpool.minIdle}"/>
+
+        <!-- 获取连接最大等待时间 -->
+        <property name="maxWait" value="${cpool.maxWait}"/>
+
+        <!-- <property name="poolPreparedStatements" value="true" /> -->
+        <!-- <property name="maxPoolPreparedStatementPerConnectionSize" value="33" /> -->
+
+        <property name="validationQuery" value="${cpool.validationQuery}"/>
+        <property name="testOnBorrow" value="${cpool.testOnBorrow}"/>
+        <property name="testOnReturn" value="${cpool.testOnReturn}"/>
+        <property name="testWhileIdle" value="${cpool.testWhileIdle}"/>
+
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="${cpool.timeBetweenEvictionRunsMillis}"/>
+
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 ?? -->
+        <!-- property name="minEvictableIdleTimeMillis" value="25200000" /> -->
+
+        <!-- 打开removeAbandoned功能 -->
+        <property name="removeAbandoned" value="${cpool.removeAbandoned}"/>
+
+        <!-- 1800秒，也就是30分钟 -->
+        <property name="removeAbandonedTimeout" value="${cpool.removeAbandonedTimeout}"/>
+
+        <!-- 关闭abandoned连接时输出错误日志 -->
+        <property name="logAbandoned" value="${cpool.logAbandoned}"/>
+
+        <!-- 监控数据库 -->
+        <!-- <property name="filters" value="stat" /> -->
+    </bean>
+
+    <!-- mybatis的SqlSession的工厂: SqlSessionFactoryBean dataSource:引用数据源 MyBatis定义数据源,同意加载配置 -->
+    <bean id="mgwSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <property name="mapperLocations" value="classpath*:mappers/**/*.xml"/>
+    </bean>
+
+    <!-- mybatis自动扫描加载Sql映射文件/接口 : MapperScannerConfigurer sqlSessionFactory
+        basePackage:指定sql映射文件/接口所在的包（自动扫描） -->
+    <!-- 自动扫描dal包 ,将带有注解的类 纳入Spring容器管理
+    <context:component-scan base-package="com.ligl.*.dal"/>-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.ligl.*.dal.dao"/>
+        <property name="sqlSessionFactoryBeanName" value="mgwSqlSessionFactory"/>
+    </bean>
+
+    <!-- 事务配置 -->
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+        <!--<property name="nestedTransactionAllowed" value="true"/>-->
+    </bean>
+
+    <!--事务模板 -->
+   <bean id="transactionTemplate"
+                  class="org.springframework.transaction.support.TransactionTemplate">
+                <property name="transactionManager" ref="transactionManager"/>
+                <!--ISOLATION_DEFAULT 表示由使用的数据库决定-->
+                <property name="isolationLevelName" value="ISOLATION_DEFAULT"/>
+                <property name="propagationBehaviorName" value="PROPAGATION_REQUIRED"/>
+                <!--<property name="timeout" value="30"/>-->
+            </bean>
+
+    <!-- 打开事务注解 -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+</beans>

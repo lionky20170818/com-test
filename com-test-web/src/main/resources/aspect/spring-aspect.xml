@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd ">
+    <!-- 日志切面类 service层-->
+    <bean id="logAspectBean" class="com.ligl.common.aspect.LogAspect"/>
+    <!--异常切面类 facade层-->
+    <bean id="exceptionAspectBean" class="com.ligl.common.aspect.ExceptionAspect"/>
+    <!--log AOP的配置 -->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+    <aop:config>
+        <!-- 配置一个切面 -->
+        <aop:aspect id="logAspect" ref="logAspectBean">
+            <!-- 定义切入点,指定切入点表达式 -->
+            <aop:pointcut id="allMethod"
+                          expression="execution(* com.ligl.trans.service.*.*(..))
+                          or execution(* com.ligl.trans.service.*.*.*(..))"/>
+            <!-- 应用前置通知 -->
+            <aop:before method="before" pointcut-ref="allMethod"/>
+            <!-- 应用后置通知 -->
+            <aop:after-returning method="afterReturn" pointcut-ref="allMethod" arg-names="call,retValue"
+                                 returning="retValue"/>
+        </aop:aspect>
+
+        <!--exception AOP的配置 -->
+        <aop:aspect id="exceptionAspect" ref="exceptionAspectBean">
+            <aop:pointcut id="processException"
+                          expression="execution(* com.ligl.trans.service.impl.*.*(..))"/>
+            <aop:around method="doAround" pointcut-ref="processException"/>
+        </aop:aspect>
+
+    </aop:config>
+</beans>

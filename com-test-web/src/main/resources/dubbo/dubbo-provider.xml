@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd        
+    http://code.alibabatech.com/schema/dubbo        
+    http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!-- 提供方应用信息，用于计算依赖关系 -->
+    <dubbo:application name="com-test"/>
+
+    <!-- 用dubbo协议在20881端口暴露服务 -->
+    <dubbo:protocol name="dubbo" port="${front.dubbo.port}"/>
+    <dubbo:provider retries="${front.dubbo.retries}" timeout="${front.dubbo.timeout}"/>
+
+    <!-- 交易类接口
+    <bean id="tradeServiceFacade" class="com.ligl.trans.facade.impl.TradeServiceFacadeImpl"/>
+    <dubbo:service interface="com.ligl.trans.facade.TradeServiceFacade" ref="tradeServiceFacade"/>-->
+
+</beans>

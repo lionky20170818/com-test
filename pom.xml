@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.test</groupId>
+    <artifactId>com-test</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <description>Demo project for Spring Boot</description>
+
+    <modules>
+        <module>com-test-dal</module>
+        <module>com-test-facade</module>
+        <module>com-test-service</module>
+        <module>com-test-web</module>
+    </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <spring.version>4.2.6.RELEASE</spring.version>
+        <spring.security.version>3.1.3.RELEASE</spring.security.version>
+        <mybatis.version>3.2.6</mybatis.version>
+        <slf4j.version>1.7.21</slf4j.version>
+        <logback.version>1.1.7</logback.version>
+        <ZbTraceLog.version>1.0.0</ZbTraceLog.version>
+    </properties>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.3.5.RELEASE</version>
+    </parent>
+
+    <!--http://blog.csdn.net/liutengteng130/article/details/46991829
+        dependencies在所有子类都会引入父类的jar包
+        dependencyManagement在子类使用的时候再引入
+        <dependencyManagement></dependencyManagement>
+    -->
+    <dependencies>
+        <dependency>
+            <groupId>com.fasterxml</groupId>
+            <artifactId>classmate</artifactId>
+            <version>1.3.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+            <version>1.2.3.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions><!-- 去掉默认配置 -->
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency> <!-- 引入log4j2依赖 -->
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
+        </dependency>
+        <dependency>  
+		    <groupId>org.slf4j</groupId>  
+		    <artifactId>jcl-over-slf4j</artifactId>
+		    <version>${slf4j.version}</version>
+        </dependency>
+
+        <!-- dubbo -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>dubbo</artifactId>
+            <version>2.5.3</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- zookeeper -->
+        <dependency>
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper</artifactId>
+            <version>3.4.6</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.sgroschupf</groupId>
+            <artifactId>zkclient</artifactId>
+            <version>0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <!-- 表示开发的时候引入，发布的时候不会加载此包 -->
+            <scope>test</scope>
+        </dependency>
+        <!--        <dependency>   专门为junit5设计
+                    <groupId>org.junit.jupiter</groupId>
+                    <artifactId>junit-jupiter-api</artifactId>
+                    <version>RELEASE</version>
+                </dependency>-->
+
+        <!-- spring核心包 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-oxm</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aspects</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>  
+		    <groupId>org.springframework.security</groupId>  
+		    <artifactId>spring-security-core</artifactId>  
+		    <version>${spring.security.version}</version>  
+		</dependency>  
+		<dependency>  
+		    <groupId>org.springframework.security</groupId>  
+		    <artifactId>spring-security-web</artifactId>  
+		    <version>${spring.security.version}</version>  
+		</dependency>  
+		<dependency>  
+		    <groupId>org.springframework.security</groupId>  
+		    <artifactId>spring-security-config</artifactId>  
+		    <version>${spring.security.version}</version>  
+		</dependency>  
+		<dependency>  
+		    <groupId>org.springframework.security</groupId>  
+		    <artifactId>spring-security-taglibs</artifactId>  
+		    <version>${spring.security.version}</version>  
+		</dependency>
+
+        <!-- mybatis核心包 -->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>${mybatis.version}</version>
+        </dependency>
+
+        <!-- mybatis/spring包 -->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+
+        <!-- 导入Mysql数据库链接jar包 -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.30</version>
+        </dependency>
+
+        <!-- commons-dbcp -->
+        <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+
+        <!-- JSTL标签类 -->
+        <dependency>
+            <groupId>jstl</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+
+        <!-- 格式化对象，方便输出日志 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.1.41</version>
+        </dependency>
+
+        <!-- 映入JSON -->
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.9.13</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.json-lib</groupId>
+            <artifactId>json-lib</artifactId>
+            <version>2.3</version>
+            <classifier>jdk15</classifier>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.9</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.0.18</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.9.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.2</version>
+        </dependency>
+        <dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpcore</artifactId>
+			<version>4.4.5</version>
+		</dependency>
+        <dependency>
+            <groupId>org.opensymphony.quartz</groupId>
+            <artifactId>quartz-all</artifactId>
+            <version>1.6.1</version>
+        </dependency>
+        <!--redis相关-->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
+            <version>1.7.1.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>2.7.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>1.1.0.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>5.1.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>com.aliyun.mns</groupId>
+            <artifactId>mns-sdk</artifactId>
+            <version>1.1.8</version>
+        </dependency>
+        <dependency>
+            <groupId>com.aliyun.oss</groupId>
+            <artifactId>aliyun-sdk-oss</artifactId>
+            <version>2.4.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpasyncclient</artifactId>
+            <version>4.1.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.18</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-recipes</artifactId>
+            <version>2.7.0</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>jsp-api</artifactId>
+            <version>2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>3.0-alpha-1</version>
+        </dependency>
+        <!--发送邮件-->
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.7</version>
+        </dependency>
+        <!--vm转pdf-->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itextpdf</artifactId>
+            <version>5.5.11</version>
+        </dependency>
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itext-asian</artifactId>
+            <version>5.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.itextpdf.tool</groupId>
+            <artifactId>xmlworker</artifactId>
+            <version>5.5.11</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity</artifactId>
+            <version>1.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-velocity</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.xhtmlrenderer</groupId>
+            <artifactId>xhtmlrenderer</artifactId>
+            <version>8.7-atlassian-01</version>
+        </dependency>
+        <dependency>
+            <groupId>com.lowagie</groupId>
+            <artifactId>itext</artifactId>
+            <version>2.1.7</version>
+        </dependency>
+        <!--guava-->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>18.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.batch</groupId>
+            <artifactId>spring-batch-core</artifactId>
+            <version>2.1.9.RELEASE</version>
+        </dependency>
+
+        <!--mybatis分页插件paginator-->
+        <dependency>
+            <groupId>org.mybatis.generator</groupId>
+            <artifactId>mybatis-generator-core</artifactId>
+            <version>1.3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.miemiedev</groupId>
+            <artifactId>mybatis-paginator</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+
+    </dependencies>
+
+    <!--首先将maven目录下的setting文件中的私服地址修改为需要上传的地址，将jar上传nexus私服  -->
+    <distributionManagement>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>Nexus Snapshot Repository</name>
+            <url>http://192.168.10.12:8081/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>nexus-releases</id>
+            <name>Nexus Release Repository</name>
+            <url>http://192.168.10.12:8081/nexus/content/repositories/releases/</url>
+        </repository>
+    </distributionManagement>
+
+    <build>
+        <plugins>
+            <!-- 跳过测试打包 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

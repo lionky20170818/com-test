@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxTotal" value="30"/>
+        <property name="maxIdle" value="10"/>
+        <property name="minIdle" value="1"/>
+        <property name="testOnBorrow" value="true"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="testOnReturn" value="true"/>
+        <property name="numTestsPerEvictionRun" value="10"/>
+        <property name="timeBetweenEvictionRunsMillis" value="60000"/>
+    </bean>
+
+    <bean id="jedisInfo" class="redis.clients.jedis.JedisShardInfo">
+        <!-- -->
+        <constructor-arg index="0" value="192.168.224.64"/>
+        <constructor-arg index="1">
+            <value>6379</value>
+        </constructor-arg>
+        <constructor-arg index="2">
+            <value>2000</value>
+        </constructor-arg>
+        <property name="password" value="123456"></property>
+    </bean>
+
+    <bean id="jedisPool" class="redis.clients.jedis.ShardedJedisPool">
+        <constructor-arg index="0" ref="jedisPoolConfig"/>
+        <constructor-arg index="1">
+            <list>
+                <ref bean="jedisInfo"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <bean id="redisCache" class="com.ligl.common.redis.RedisCache">
+        <constructor-arg index="0" ref="jedisPool"/>
+        <property name="prefix_key" value="redisOK_"></property>
+    </bean>
+
+</beans>

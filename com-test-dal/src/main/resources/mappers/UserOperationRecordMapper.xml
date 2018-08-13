@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ligl.trans.dal.dao.UserOperationRecordDAO">
+  <resultMap id="BaseResultMap" type="com.ligl.trans.dal.entity.UserOperationRecord">
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="ref_no" property="refNo" jdbcType="VARCHAR" />
+    <result column="source_id" property="sourceId" jdbcType="VARCHAR" />
+    <result column="account_no" property="accountNo" jdbcType="VARCHAR" />
+    <result column="operation_type" property="operationType" jdbcType="VARCHAR" />
+    <result column="trade_amt" property="tradeAmt" jdbcType="DECIMAL" />
+    <result column="fee_amt" property="feeAmt" jdbcType="DECIMAL" />
+    <result column="operation_by" property="operationBy" jdbcType="VARCHAR" />
+    <result column="operation_time" property="operationTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="modify_by" property="modifyBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, ref_no, source_id, account_no, operation_type, trade_amt, fee_amt, operation_by, 
+    operation_time, create_time, create_by, modify_time, modify_by
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_operation_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from user_operation_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.ligl.trans.dal.entity.UserOperationRecord">
+    insert into user_operation_record (id, ref_no, source_id, 
+      account_no, operation_type, trade_amt, 
+      fee_amt, operation_by, operation_time, 
+      create_time, create_by, modify_time, 
+      modify_by)
+    values (#{id,jdbcType=BIGINT}, #{refNo,jdbcType=VARCHAR}, #{sourceId,jdbcType=VARCHAR}, 
+      #{accountNo,jdbcType=VARCHAR}, #{operationType,jdbcType=VARCHAR}, #{tradeAmt,jdbcType=DECIMAL}, 
+      #{feeAmt,jdbcType=DECIMAL}, #{operationBy,jdbcType=VARCHAR}, #{operationTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP}, 
+      #{modifyBy,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ligl.trans.dal.entity.UserOperationRecord">
+    insert into user_operation_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="refNo != null" >
+        ref_no,
+      </if>
+      <if test="sourceId != null" >
+        source_id,
+      </if>
+      <if test="accountNo != null" >
+        account_no,
+      </if>
+      <if test="operationType != null" >
+        operation_type,
+      </if>
+      <if test="tradeAmt != null" >
+        trade_amt,
+      </if>
+      <if test="feeAmt != null" >
+        fee_amt,
+      </if>
+      <if test="operationBy != null" >
+        operation_by,
+      </if>
+      <if test="operationTime != null" >
+        operation_time,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="modifyTime != null" >
+        modify_time,
+      </if>
+      <if test="modifyBy != null" >
+        modify_by,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="refNo != null" >
+        #{refNo,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceId != null" >
+        #{sourceId,jdbcType=VARCHAR},
+      </if>
+      <if test="accountNo != null" >
+        #{accountNo,jdbcType=VARCHAR},
+      </if>
+      <if test="operationType != null" >
+        #{operationType,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeAmt != null" >
+        #{tradeAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="feeAmt != null" >
+        #{feeAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="operationBy != null" >
+        #{operationBy,jdbcType=VARCHAR},
+      </if>
+      <if test="operationTime != null" >
+        #{operationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyBy != null" >
+        #{modifyBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ligl.trans.dal.entity.UserOperationRecord">
+    update user_operation_record
+    <set >
+      <if test="refNo != null" >
+        ref_no = #{refNo,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceId != null" >
+        source_id = #{sourceId,jdbcType=VARCHAR},
+      </if>
+      <if test="accountNo != null" >
+        account_no = #{accountNo,jdbcType=VARCHAR},
+      </if>
+      <if test="operationType != null" >
+        operation_type = #{operationType,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeAmt != null" >
+        trade_amt = #{tradeAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="feeAmt != null" >
+        fee_amt = #{feeAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="operationBy != null" >
+        operation_by = #{operationBy,jdbcType=VARCHAR},
+      </if>
+      <if test="operationTime != null" >
+        operation_time = #{operationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyBy != null" >
+        modify_by = #{modifyBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ligl.trans.dal.entity.UserOperationRecord">
+    update user_operation_record
+    set ref_no = #{refNo,jdbcType=VARCHAR},
+      source_id = #{sourceId,jdbcType=VARCHAR},
+      account_no = #{accountNo,jdbcType=VARCHAR},
+      operation_type = #{operationType,jdbcType=VARCHAR},
+      trade_amt = #{tradeAmt,jdbcType=DECIMAL},
+      fee_amt = #{feeAmt,jdbcType=DECIMAL},
+      operation_by = #{operationBy,jdbcType=VARCHAR},
+      operation_time = #{operationTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      modify_by = #{modifyBy,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="listByPayService" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from user_operation_record
+  </select>
+
+  <select id="listByPayServicePage" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from user_operation_record
+  </select>
+
+</mapper>

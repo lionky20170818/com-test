@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Title</title>
+    <style>
+        * {
+            font-family: SimSun;
+        }
+
+        .pactContainer {
+            font-size: 15px;
+            width: 794px;
+            min-height: 1123px;
+            margin: 10px auto;
+            box-shadow: 1px 5px 10px;
+            padding: 35px 45px;
+            line-height: 30px;
+            font-family: cursive;
+        }
+
+        .fl {
+            float: left;
+        }
+
+        .fr {
+            float: right;
+        }
+
+        .fixed:after {
+            content: ' ';
+            display: block;
+            width: 0;
+            height: 0;
+            visibility: hidden;
+            clear: both;
+            font-size: 0;
+        }
+
+        .pactContainer p {
+            margin: 0px;
+            padding: 0;
+        }
+
+        .pactContainer .pactHeadIntroduce h1 {
+            font-size: 21px;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: -5px;
+        }
+
+        .pactContainer .pactHeadIntroduce p {
+            text-align: right;
+        }
+
+        .pactContainer .pactContent .textcontent {
+            text-indent: 2.2rem;
+        }
+
+        .pactContainer .pactFooter {
+            margin-top: 75px;
+        }
+
+        .textBottomLine {
+            border-bottom: 1px solid black;
+            width: 250px;
+            height: 15px;
+            padding: 0;
+            margin: 0;
+            line-height: 9px;
+            padding-left: 3px;
+        }
+
+        .pactContainer .pactContent .textBottomLine {
+            margin-top: -23px;
+            margin-left: 104px
+        }
+
+        .pactContainer .pactFooter .textBottomLine {
+            margin-top: 8px;
+            margin-right: 11px;
+
+        }
+
+        .pactContainer .pactFooter .div1 {
+            margin-left: 365px;
+        }
+
+        .pactContainer .pactFooter .div2 {
+            margin-left: 298px
+        }
+
+        .pactContainer .pactFooter .div3 {
+            margin-left: 448px
+        }
+
+        .pactContainer .pactFooter .div4 {
+            margin-left: 478px
+        }
+
+        p {
+            font-size: 5px
+        }
+
+        .DivFixd:
+    </style>
+</head>
+
+<body>
+<main class="pactContainer">
+    <section class="pactHeadIntroduce">
+        <h1>订单融资货款回款专户通知函</h1>
+        <div class="fixed">
+            <div class="textBottomLine fr" style="margin-top: 8px">${serialNumber}</div>
+            <div class="fr" style="margin-right: 5px">编号：</div>
+        </div>
+    </section>
+    <div class="pactContent">
+        <p>【买方名称 比如中铁，固定数值，基于模版生成】：</p>
+        <div class="textcontent">
+            贵方（作为买方）与我方于 录入 年 录入 月 录入日订立编号为 录入 的《 录入 》， （以下简称为“采购合同”），我方就采购合同向 自动生成，基于模版 （下称“保理公司”）申请办理订单融资，于 录入 年 录入 月
+            录入 日与保理公 司签订了编号
+            自动生成，跟订单融资合同编号一致 的《订单融资合同》，并 于 录入 年 录入 月 录入 日在人民银行征信中心办理了应收账款质押/转 让登记，现指定以下货款回款专户为我方指定收款账户：
+
+
+        </div>
+    </div>
+    <footer class="pactFooter">
+        <div class="fixed">
+            <div class="textBottomLine fr">${seller}</div>
+            <div class="fr">通知人/卖方（盖章）：</div>
+        </div>
+        <div class="fixed">
+            <div class="textBottomLine fr">${legalRepresentative}</div>
+            <div class="fr">法定代表人或授权代表（签字）：</div>
+        </div>
+        <div class="fixed">
+            <div class="textBottomLine fr">${phone}</div>
+            <div class=" fr">联系电话：</div>
+        </div>
+        <div class="fixed">
+            <div class="textBottomLine fr">${date}</div>
+            <div class="fr">日期：</div>
+        </div>
+    </footer>
+</main>
+</body>
+
+</html>
