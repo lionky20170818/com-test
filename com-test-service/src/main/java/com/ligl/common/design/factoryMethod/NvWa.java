@@ -5,6 +5,8 @@ package com.ligl.common.design.factoryMethod;
  * Author: created by liguoliang
  * Date: 2017/7/13 0013 下午 1:51
  * Version: 1.0
+ * 工厂模式参考使用type判断使用哪个具体：工厂模式写法
+ * https://blog.csdn.net/llussize/article/details/80276627
  */
 public class NvWa {
     public static void main(String[] args) {
