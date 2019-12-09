@@ -7,6 +7,15 @@ package com.ligl.common.design.factoryMethod;
  * Version: 1.0
  * 工厂模式参考使用type判断使用哪个具体：工厂模式写法
  * https://blog.csdn.net/llussize/article/details/80276627
+ * 3,工厂模式：
+ * 工厂模式示例athena-openapi-service：
+ * 1，根据typpe:
+ * 	billStatusModify(BillMqObj bill){}
+ * 	BillStatusFactory factory=getFactoryBeanByType(bill.getType());
+ *
+ * 2,循环执行：BillsHandlerChain.java
+ * 3，通过注解：EInvoiceServiceFactory.java
+ *
  */
 public class NvWa {
     public static void main(String[] args) {
